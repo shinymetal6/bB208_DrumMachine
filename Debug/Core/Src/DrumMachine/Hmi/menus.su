@@ -5,5 +5,5 @@ menus.c:199:13:EraseStringAt	32	static
 menus.c:204:6:MenuHilightItem	16	static
 menus.c:213:6:MenuDisplayMenu	32	static
 menus.c:225:6:MenuDisplayInit	32	static
-menus.c:314:6:MenuEncoderNavigate	8	static
-menus.c:338:6:MeuEncoderChangeMenu	64	static
+menus.c:320:6:MenuEncoderNavigate	8	static
+menus.c:344:6:MeuEncoderChangeMenu	64	static

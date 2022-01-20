@@ -45,6 +45,7 @@ void controls_callbacks( void )
 static void Init_InitialVars(void)
 {
 	DrumMachineVar.sequencer_flags &= ~(SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL );
+	DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGERINH;
 	DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGEROUTLVL;
 	DrumMachineVar.system &= ~(SYSTEM_SEQUENCER_INTERNAL | SYSTEM_SEQUENCER_EXTERNAL | SYSTEM_SEQUENCER_SSHOT);
 	DrumMachineVar.system |= SYSTEM_SEQUENCER_INTERNAL;
