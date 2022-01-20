@@ -1,0 +1,13 @@
+#ifndef SRC_BB2XX_BSP_IMAGES_DIGITS_H_
+#define SRC_BB2XX_BSP_IMAGES_DIGITS_H_
+
+#define  DIGITS_22x40_W        	22
+#define  DIGITS_22x40_H        	40
+//#define  DIGITS_22x40_SIZE 		2048
+#define  DIGITS_16x29_W        	16
+#define  DIGITS_16x29_H        	29
+//#define  DIGITS_16x29_SIZE 		2048
+#define  DIGITS_SIZE 			2048
+#define	WHOLE_DIGIT_SIZE		(DIGITS_SIZE*10)
+#define	WHOLE_DIGIT_SECTORS		(WHOLE_DIGIT_SIZE/SECTOR_SIZE)
+#endif /* SRC_BB2XX_BSP_IMAGES_DIGITS_H_ */

@@ -1,0 +1,16 @@
+w25qxx.c:13:16:w2qxx_SpiTX	32	static
+w25qxx.c:20:13:w2qxx_WaitForWriteEnd	16	static
+w25qxx.c:34:13:w2qxx_WriteEnable	8	static
+w25qxx.c:41:6:w2qxx_WriteDisable	8	static
+w25qxx.c:48:10:w2qxx_SectorToAddress	16	static
+w25qxx.c:53:10:w25qxx_AddressToSector	16	static
+w25qxx.c:58:17:send_cmd_addr	24	static
+w25qxx.c:70:6:w25qxx_EraseSector	24	static
+w25qxx.c:84:6:w25qxx_EraseBlock64k	16	static
+w25qxx.c:96:6:w25qxx_EraseMultiSector	24	static
+w25qxx.c:103:6:w25qxx_ReadBytes	24	static
+w25qxx.c:114:13:w25qxx_WritePage	24	static
+w25qxx.c:125:6:w25qxx_WriteBytes	24	static
+w25qxx.c:138:10:w25qxx_ReadID	16	static
+w25qxx.c:149:9:w2qxx_PollChipErase	16	static
+w25qxx.c:160:6:w2qxx_ChipErase	8	static

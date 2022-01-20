@@ -1,0 +1,5 @@
+delay.c:15:6:Delay_Value_Draw	32	static
+delay.c:37:6:Delay_Weight_Draw	24	static
+delay.c:57:6:Delay_Value_Change	8	static
+delay.c:78:6:Delay_Weight_Change	8	static
+delay.c:100:7:DelayLine	24	static

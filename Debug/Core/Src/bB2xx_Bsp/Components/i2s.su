@@ -1,0 +1,5 @@
+i2s.c:11:6:InitI2S	16	static
+i2s.c:19:13:I2S_IrqProcessSamples	24	static
+i2s.c:36:6:HAL_I2S_TxHalfCpltCallback	16	static
+i2s.c:42:6:HAL_I2S_TxCpltCallback	16	static
+i2s.c:49:6:I2S_GetAudioBuf	16	static

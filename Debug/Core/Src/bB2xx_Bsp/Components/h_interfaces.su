@@ -1,0 +1,7 @@
+h_interfaces.c:11:13:encoder_rotation_callback	4	static
+h_interfaces.c:15:13:encoder_switch_callback	4	static
+h_interfaces.c:19:13:sw1_callback	4	static
+h_interfaces.c:23:13:sw2_callback	4	static
+h_interfaces.c:27:13:LD1_OnOff	16	static
+h_interfaces.c:31:13:LD7_OnOff	16	static
+h_interfaces.c:35:13:LD8_OnOff	16	static

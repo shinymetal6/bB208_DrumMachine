@@ -1,0 +1,2 @@
+ili9341_calibrate_touch.c:22:13:ILI9341_draw_calibrate	16	static
+ili9341_calibrate_touch.c:34:6:ILI9341_calibrate_touch	72	static

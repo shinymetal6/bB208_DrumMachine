@@ -1,0 +1,13 @@
+sequencer.c:27:6:SequencerUpdateBeat	24	static
+sequencer.c:42:6:SequencerUpdateNumberOfBeat	40	static
+sequencer.c:61:6:SequencerInit	16	static
+sequencer.c:115:6:SequencerRestart	8	static
+sequencer.c:128:6:SequencerInternalStart	8	static
+sequencer.c:135:6:SequencerInternalStop	8	static
+sequencer.c:149:6:SequencerExternalStart	8	static
+sequencer.c:154:6:SequencerExternalStop	8	static
+sequencer.c:168:6:SequencerCallback	16	static
+sequencer.c:229:13:common_sequencer_callbacks	8	static
+sequencer.c:238:13:gate_sequencer_callbacks	8	static
+sequencer.c:257:6:sigin2_callbacks	16	static
+sequencer.c:280:6:ext_additional_timer_callbacks	16	static

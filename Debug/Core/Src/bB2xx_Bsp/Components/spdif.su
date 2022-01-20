@@ -1,0 +1,4 @@
+spdif.c:12:6:InitSPDIF	16	static
+spdif.c:21:13:SPDIF_IrqProcessSamples	24	static
+spdif.c:38:6:SPDIF_TxHalfCpltCallback	8	static
+spdif.c:44:6:SPDIF_TxCpltCallback	8	static

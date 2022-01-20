@@ -1,0 +1,2 @@
+adc.c:12:6:InitADC	8	static
+adc.c:17:6:GetControls	16	static
