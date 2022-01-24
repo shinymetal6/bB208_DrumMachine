@@ -65,6 +65,7 @@ extern	void SequencerUpdateBeat(void);
 extern	void SequencerRestart(void);
 extern	void SequencerExternalStart(void);
 extern	void SequencerExternalStop(void);
-
+extern	void SequencerModeChange(void);
+extern	void SequencerDrawMode(uint8_t hilight);
 
 #endif /* SRC_BB808_SEQUENCER_H_ */

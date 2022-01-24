@@ -28,8 +28,10 @@ extern	Sequencer_DescriptorTypeDef	Sequencer_Descriptor;
 
 typedef struct {
 	uint8_t			system;
+	uint8_t			encoder_navigation;
 	uint8_t			encoder_flags;
 	uint8_t			buttons_flags;
+	uint8_t			volume_flags;
 	int16_t 		last_encval;
 	int16_t 		encval;
 	uint8_t			delay_flags;
@@ -38,6 +40,7 @@ typedef struct {
 	float			delay_weight;
 	uint8_t			uservalue_changed;
 	uint8_t			sequencer_flags;
+	uint8_t			sequencer_mode;
 	uint32_t		sequencer_preload;
 	uint16_t		sequencer_counter;
 	uint16_t		sequencer_step;
@@ -53,15 +56,25 @@ typedef struct {
 	int16_t			rvar[4];
 }DrumMachineVar_TypeDef;
 
+/* sequencer_mode */
+#define	SECMODE_SEQUENCER_EXTERNAL	0x80
+#define	SECMODE_SEQUENCER_LOOP		0x40
+
+/* volume_flags */
+#define	VOLUME_FLAG_READY			0x80
+
+/* encoder_navigation */
+#define	ENCNAV_GATE_INCDEC			0x80
+#define	ENCNAV_TRIGOUTBEAT_INCDEC	0x40
+#define	ENCNAV_TRIGOUTLVL_INCDEC	0x20
+#define	ENCNAV_TRIGINSRC_INCDEC		0x10
+#define	ENCNAV_MODE_INCDEC			0x08
+#define	ENCNAV_BPM_INCDEC			0x04
+#define	ENCNAV_DELAYWEIGHT_INCDEC	0x02
+#define	ENCNAV_DELAYVAL_INCDEC		0x01
+
 /* system */
 #define	SYSTEM_MENU_INCDEC			0x80
-#define	SYSTEM_SEQUENCER_INTERNAL	0x40
-#define	SYSTEM_SEQUENCER_EXTERNAL	0x20
-#define	SYSTEM_SEQUENCER_SSHOT		0x10
-#define	SYSTEM_VOLUME_READY			0x08
-#define	SYSTEM_BPM_INCDEC			0x04
-#define	SYSTEM_DELAYWEIGHT_INCDEC	0x02
-#define	SYSTEM_DELAYVAL_INCDEC		0x01
 
 /* encoder_flags */
 #define	ENCODER_ROTATION_FLAG		0x80

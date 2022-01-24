@@ -8,6 +8,7 @@ C_SRCS += \
 ../Core/Src/DrumMachine/Images/blue_digits.c \
 ../Core/Src/DrumMachine/Images/digits_memory.c \
 ../Core/Src/DrumMachine/Images/green_digits.c \
+../Core/Src/DrumMachine/Images/icons_memory.c \
 ../Core/Src/DrumMachine/Images/orange_digits.c \
 ../Core/Src/DrumMachine/Images/red_digits.c \
 ../Core/Src/DrumMachine/Images/yellow_digits.c 
@@ -16,6 +17,7 @@ OBJS += \
 ./Core/Src/DrumMachine/Images/blue_digits.o \
 ./Core/Src/DrumMachine/Images/digits_memory.o \
 ./Core/Src/DrumMachine/Images/green_digits.o \
+./Core/Src/DrumMachine/Images/icons_memory.o \
 ./Core/Src/DrumMachine/Images/orange_digits.o \
 ./Core/Src/DrumMachine/Images/red_digits.o \
 ./Core/Src/DrumMachine/Images/yellow_digits.o 
@@ -24,6 +26,7 @@ C_DEPS += \
 ./Core/Src/DrumMachine/Images/blue_digits.d \
 ./Core/Src/DrumMachine/Images/digits_memory.d \
 ./Core/Src/DrumMachine/Images/green_digits.d \
+./Core/Src/DrumMachine/Images/icons_memory.d \
 ./Core/Src/DrumMachine/Images/orange_digits.d \
 ./Core/Src/DrumMachine/Images/red_digits.d \
 ./Core/Src/DrumMachine/Images/yellow_digits.d 
@@ -36,7 +39,7 @@ Core/Src/DrumMachine/Images/%.o: ../Core/Src/DrumMachine/Images/%.c Core/Src/Dru
 clean: clean-Core-2f-Src-2f-DrumMachine-2f-Images
 
 clean-Core-2f-Src-2f-DrumMachine-2f-Images:
-	-$(RM) ./Core/Src/DrumMachine/Images/blue_digits.d ./Core/Src/DrumMachine/Images/blue_digits.o ./Core/Src/DrumMachine/Images/digits_memory.d ./Core/Src/DrumMachine/Images/digits_memory.o ./Core/Src/DrumMachine/Images/green_digits.d ./Core/Src/DrumMachine/Images/green_digits.o ./Core/Src/DrumMachine/Images/orange_digits.d ./Core/Src/DrumMachine/Images/orange_digits.o ./Core/Src/DrumMachine/Images/red_digits.d ./Core/Src/DrumMachine/Images/red_digits.o ./Core/Src/DrumMachine/Images/yellow_digits.d ./Core/Src/DrumMachine/Images/yellow_digits.o
+	-$(RM) ./Core/Src/DrumMachine/Images/blue_digits.d ./Core/Src/DrumMachine/Images/blue_digits.o ./Core/Src/DrumMachine/Images/digits_memory.d ./Core/Src/DrumMachine/Images/digits_memory.o ./Core/Src/DrumMachine/Images/green_digits.d ./Core/Src/DrumMachine/Images/green_digits.o ./Core/Src/DrumMachine/Images/icons_memory.d ./Core/Src/DrumMachine/Images/icons_memory.o ./Core/Src/DrumMachine/Images/orange_digits.d ./Core/Src/DrumMachine/Images/orange_digits.o ./Core/Src/DrumMachine/Images/red_digits.d ./Core/Src/DrumMachine/Images/red_digits.o ./Core/Src/DrumMachine/Images/yellow_digits.d ./Core/Src/DrumMachine/Images/yellow_digits.o
 
 .PHONY: clean-Core-2f-Src-2f-DrumMachine-2f-Images
 

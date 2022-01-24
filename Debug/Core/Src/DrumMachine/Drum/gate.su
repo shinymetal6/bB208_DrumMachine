@@ -1,0 +1,2 @@
+gate.c:13:6:GateDrawInLevel	16	static
+gate.c:36:6:GateInLevel_Change	8	static

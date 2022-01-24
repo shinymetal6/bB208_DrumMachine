@@ -10,6 +10,7 @@
 #include "drum_flash.h"
 #include "../drum_machine.h"
 #include "../Hmi/menus.h"
+#include "../Images/icons_memory.h"
 #include "sdcard.h"
 #include "fatfs.h"
 #include "drum_flash.h"
@@ -351,6 +352,48 @@ uint8_t		*image_ptr;
 	Delay_Weight_Draw(0);
 	Delay_Value_Draw(0);
 	WriteStatusLine("Digits copied");
+}
+
+FRESULT Read_IconFile (char *filename,uint8_t *image_ptr)
+{
+uint32_t 	bytesread;
+
+	if ( (fresult = Check_File(filename)) != FR_OK)
+	    return fresult;
+	if((fresult = f_open(&ImgFile, (char *)filename, FA_OPEN_EXISTING | FA_READ)) == FR_OK)
+	{
+		f_read(&ImgFile, image_ptr, ICON1_SIZE*2, (void *)&bytesread);
+		f_close(&ImgFile);
+	}
+	return fresult;
+}
+
+
+void CopyIconsFromSD(void)
+{
+uint8_t		icon_number;
+uint8_t		*image_ptr;
+
+	DisableSampleTimer();
+	WriteStatusLine("Reading Icons ...");
+
+	for(icon_number=0;icon_number<ICON1_NUMBER;icon_number++)
+	{
+		sprintf(filename,"system/images/Icons/%s",IconVar[icon_number].normal_name);
+		image_ptr = &icons_50x20_normal[icon_number][0];
+		Read_IconFile(filename,image_ptr);
+		sprintf(filename,"system/images/Icons/%s",IconVar[icon_number].selected_name);
+		image_ptr = &icons_50x20_selected[icon_number][0];
+		Read_IconFile(filename,image_ptr);
+	}
+	WriteStatusLine("Writing Icons ...");
+	drum_flash_store_icons();
+	drum_flash_load_icons();
+	EnableSampleTimer();
+	BPM_Value_Draw(0);
+	Delay_Weight_Draw(0);
+	Delay_Value_Draw(0);
+	WriteStatusLine("Icons copied");
 }
 
 uint8_t CheckForUpdate(void)

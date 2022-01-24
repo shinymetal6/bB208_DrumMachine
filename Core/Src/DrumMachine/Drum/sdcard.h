@@ -48,5 +48,6 @@ extern	uint8_t CheckForUpdate(void);
 extern	void CopySamplesFromSD(void);
 extern	void CopySequenceFromSD(void);
 extern	void CopyDigitsFromSD(void);
+extern	void CopyIconsFromSD(void);
 
 #endif /* SRC_DRUMMACHINE_DRUM_SDCARD_H_ */

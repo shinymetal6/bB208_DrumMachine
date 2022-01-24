@@ -10,6 +10,7 @@
 #include "drum.h"
 #include "drum_flash.h"
 #include "enc_btns_leds.h"
+#include "../Images/icons_memory.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -70,6 +71,31 @@ void drum_flash_load_digits( void )
 	w25qxx_ReadBytes((uint8_t *)&hilight_digits_16x29[0], RED_DIGIT_TYPE2_PTR, WHOLE_DIGIT_SIZE);
 }
 
+void drum_flash_store_icons( void )
+{
+uint8_t		icon_number;
+
+	for(icon_number=0;icon_number<ICON1_NUMBER;icon_number++)
+	{
+		LD1_OnOff(LED_ON);
+		w25qxx_EraseSector(w25qxx_AddressToSector(ICON_BOTH_PTR+(icon_number*SECTOR_SIZE)));
+		HAL_Delay(10);
+		w25qxx_WriteBytes((uint8_t *)&icons_50x20_normal[icon_number][0], ICON_BOTH_PTR+(icon_number*SECTOR_SIZE), SECTOR_SIZE);
+		LD1_OnOff(LED_OFF);
+		HAL_Delay(100);
+	}
+}
+
+void drum_flash_load_icons( void )
+{
+uint8_t		icon_number;
+
+	for(icon_number=0;icon_number<ICON1_NUMBER;icon_number++)
+	{
+		bzero(icons_50x20_normal[icon_number],sizeof(icons_50x20_normal[icon_number]));
+		w25qxx_ReadBytes((uint8_t *)&icons_50x20_normal[icon_number],  ICON_BOTH_PTR+(icon_number*SECTOR_SIZE), ICON1_SIZE-3*ICON1_W);
+	}
+}
 
 void drum_flash_get_usrsequence(void)
 {
@@ -77,10 +103,10 @@ void drum_flash_get_usrsequence(void)
 
 void drum_flash_load(void)
 {
-
 	if ( SystemParameters.valid_params == VALID_PARAMS_FLAG )
 	{
 		drum_flash_load_digits();
+		drum_flash_load_icons();
 		drum_flash_get_usrparams();
 	}
 	return;

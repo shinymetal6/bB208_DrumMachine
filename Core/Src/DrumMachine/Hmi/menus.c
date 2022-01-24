@@ -8,6 +8,9 @@
 #include "main.h"
 #include "menus.h"
 #include "../Drum/enc_btns_leds.h"
+#include "../Drum/trigger.h"
+#include "../Drum/gate.h"
+#include "../Drum/sequencer.h"
 #include <stdio.h>
 
 MenuVars_TypeDef	MenuVars;
@@ -17,7 +20,7 @@ Menu_TypeDef	MenuTop[] =
 		{
 			MENU_LINE_0_X,
 			MENU_LINE_0_Y,
-			"Sequence",
+			"Sequencer",
 			MENU_ACTIVE_COLOR,
 		},
 		{
@@ -54,19 +57,19 @@ Menu_TypeDef	MenuSequence[] =
 		{
 			MENU_LINE_0_X,
 			MENU_LINE_0_Y+1*MENU_FONT_HEIGHT,
-			"Sequencer Edge",
+			"Trigger IN",
 			MENU_ACTIVE_COLOR,
 		},
 		{
 			MENU_LINE_0_X,
 			MENU_LINE_0_Y+2*MENU_FONT_HEIGHT,
-			"Sequencer Trigger Out",
+			"Trigger OUT",
 			MENU_INACTIVE_COLOR,
 		},
 		{
 			MENU_LINE_0_X,
 			MENU_LINE_0_Y+3*MENU_FONT_HEIGHT,
-			"Trigger Out on 1",
+			"Trigger OUT beat 1",
 			MENU_INACTIVE_COLOR,
 		},
 		{
@@ -152,12 +155,18 @@ Menu_TypeDef	MenuSettings[] =
 		{
 			MENU_LINE_0_X,
 			MENU_LINE_0_Y+2*MENU_FONT_HEIGHT,
-			"Load Images from SD",
+			"Load Digits from SD",
 			MENU_INACTIVE_COLOR,
 		},
 		{
 			MENU_LINE_0_X,
 			MENU_LINE_0_Y+3*MENU_FONT_HEIGHT,
+			"Load Icons from SD",
+			MENU_INACTIVE_COLOR,
+		},
+		{
+			MENU_LINE_0_X,
+			MENU_LINE_0_Y+4*MENU_FONT_HEIGHT,
 			"Return",
 			MENU_INACTIVE_COLOR,
 		},
@@ -275,46 +284,10 @@ uint8_t	i=0;
 	Delay_Weight_Draw(0);
 	BPM_Value_Draw(0);
 
-	if ((DrumMachineVar.sequencer_flags & (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) ) ==  (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) )
-	{
-		ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"B",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	}
-	else if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGERINH ) ==  SEQUENCER_TRIGGERINH )
-	{
-		ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	}
-	else
-	{
-		ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"L",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	}
-
-	if (( UserParameters.delay_type & SEQUENCER_GATEH) == SEQUENCER_GATEH)
-		ILI9341_WriteString(STATUS_BAR_GATEX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	else if (( UserParameters.delay_type & SEQUENCER_GATEL) == SEQUENCER_GATEL)
-		ILI9341_WriteString(STATUS_BAR_GATEX,STATUS_BAR_Y,"L",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	else
-		ILI9341_WriteString(STATUS_BAR_GATEX,STATUS_BAR_Y,"N",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-
-
-	if (( UserParameters.delay_type & DELAY_TYPE_FLANGER) == DELAY_TYPE_FLANGER)
-		ILI9341_WriteString(STATUS_BAR_DLYX,STATUS_BAR_Y,"F",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	else if (( UserParameters.delay_type & DELAY_TYPE_ECHO) == DELAY_TYPE_ECHO )
-		ILI9341_WriteString(STATUS_BAR_DLYX,STATUS_BAR_Y,"E",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	else
-		ILI9341_WriteString(STATUS_BAR_DLYX,STATUS_BAR_Y,"N",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-
-	if (( DrumMachineVar.system & SYSTEM_SEQUENCER_INTERNAL) == SYSTEM_SEQUENCER_INTERNAL)
-		ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"I",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	if (( DrumMachineVar.system & SYSTEM_SEQUENCER_EXTERNAL) == SYSTEM_SEQUENCER_EXTERNAL)
-		ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"E",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	if (( DrumMachineVar.system & SYSTEM_SEQUENCER_SSHOT) == SYSTEM_SEQUENCER_SSHOT)
-		ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"S",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-
-	if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGEROUTLVL ) ==  SEQUENCER_TRIGGEROUTLVL )
-		ILI9341_WriteString(STATUS_BAR_SEQOUTX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-	else
-		ILI9341_WriteString(STATUS_BAR_SEQOUTX,STATUS_BAR_Y,"L",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-
+	SequencerDrawMode(0);
+	TriggerDrawMode(0);
+	TriggerDrawOutLevel(0);
+	GateDrawInLevel(0);
 }
 
 void MenuEncoderNavigate(void)
@@ -339,6 +312,11 @@ void MenuEncoderNavigate(void)
 		DrumMachineVar.encoder_flags &= ~ENCODER_ROTATION_FLAG;
 	}
 	MenuHilightItem(MenuVars.current_menu);
+}
+
+void update_sequencer_mode(void)
+{
+
 }
 
 void MeuEncoderChangeMenu(void)
@@ -370,110 +348,33 @@ void MeuEncoderChangeMenu(void)
 	case	MENU_SEQUENCE	:
 		if ( MenuVars.next_menu_item == 0)
 		{
-			if (( DrumMachineVar.system & SYSTEM_SEQUENCER_INTERNAL) == SYSTEM_SEQUENCER_INTERNAL)
-			{
-				DrumMachineVar.system &= ~SYSTEM_SEQUENCER_INTERNAL;
-				DrumMachineVar.system |= SYSTEM_SEQUENCER_EXTERNAL;
-				ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"E",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
-			else if (( DrumMachineVar.system & SYSTEM_SEQUENCER_EXTERNAL) == SYSTEM_SEQUENCER_EXTERNAL)
-			{
-				DrumMachineVar.system &= ~SYSTEM_SEQUENCER_EXTERNAL;
-				DrumMachineVar.system |= SYSTEM_SEQUENCER_SSHOT;
-				ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"S",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
-			else if (( DrumMachineVar.system & SYSTEM_SEQUENCER_SSHOT) == SYSTEM_SEQUENCER_SSHOT)
-			{
-				DrumMachineVar.system &= ~SYSTEM_SEQUENCER_SSHOT;
-				DrumMachineVar.system |= SYSTEM_SEQUENCER_INTERNAL;
-				ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"I",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
-			else
-			{
-				DrumMachineVar.system &= ~(SYSTEM_SEQUENCER_INTERNAL | SYSTEM_SEQUENCER_EXTERNAL | SYSTEM_SEQUENCER_SSHOT);
-				DrumMachineVar.system |= SYSTEM_SEQUENCER_EXTERNAL;
-				ILI9341_WriteString(STATUS_BAR_SEQTYPE,STATUS_BAR_Y,"E",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
+			DrumMachineVar.encoder_navigation |= ENCNAV_MODE_INCDEC;
+			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
+			SequencerDrawMode(1);
 			return;
 		}
 		if ( MenuVars.next_menu_item == 1)
 		{
-			if ((DrumMachineVar.sequencer_flags & (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) ) ==  0 )
-			{
-				ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-				DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGERINH;
-			}
-			else
-			{
-				if ((DrumMachineVar.sequencer_flags & (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) ) ==  (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) )
-				{
-					ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-					DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGERINH;
-					DrumMachineVar.sequencer_flags &= ~SEQUENCER_TRIGGERINL;
-				}
-				else if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGERINH ) ==  SEQUENCER_TRIGGERINH )
-				{
-					ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"L",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-					DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGERINL;
-					DrumMachineVar.sequencer_flags &= ~SEQUENCER_TRIGGERINH;
-				}
-				else
-				{
-					DrumMachineVar.sequencer_flags |= (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL );
-					ILI9341_WriteString(STATUS_BAR_TRIGX,STATUS_BAR_Y,"B",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-				}
-			}
+			DrumMachineVar.encoder_navigation |= ENCNAV_TRIGINSRC_INCDEC;
+			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
 			return;
 		}
 		if ( MenuVars.next_menu_item == 2)
 		{
-			if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGEROUTLVL ) ==  SEQUENCER_TRIGGEROUTLVL )
-			{
-				DrumMachineVar.sequencer_flags &= ~SEQUENCER_TRIGGEROUTLVL;
-				ILI9341_WriteString(STATUS_BAR_SEQOUTX,STATUS_BAR_Y,"L",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
-			else
-			{
-				DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGEROUTLVL;
-				ILI9341_WriteString(STATUS_BAR_SEQOUTX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
+			DrumMachineVar.encoder_navigation |= ENCNAV_TRIGOUTLVL_INCDEC;
+			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
 			return;
 		}
 		if ( MenuVars.next_menu_item == 3)
 		{
-			char l1[8],l2[8],l3[8];
-			int num;
-			sscanf((char *)MenuVars.current_menu[MenuVars.selected_menu_item].text,"%s %s %s %d", l1,l2,l3,&num);
-			DrumMachineVar.sequencer_trigout_sample = num-1;
-			GraphSetMarkerInactive(DrumMachineVar.sequencer_trigout_sample);
-			DrumMachineVar.sequencer_trigout_sample ++;
-			if ( DrumMachineVar.sequencer_trigout_sample >= UserParameters.sequencer_length )
-				DrumMachineVar.sequencer_trigout_sample = 0;
-			GraphSetMarkerActive(DrumMachineVar.sequencer_trigout_sample);
-			sprintf((char *)MenuVars.current_menu[MenuVars.selected_menu_item].text,"Trigger Out on %d ",(int )DrumMachineVar.sequencer_trigout_sample+1);
-			DisplayStringAt(MenuVars.current_menu[MenuVars.selected_menu_item].linex,MenuVars.current_menu[MenuVars.selected_menu_item].liney,MenuVars.current_menu[MenuVars.selected_menu_item].text,MENU_HILIGHT_COLOR);
+			DrumMachineVar.encoder_navigation |= ENCNAV_TRIGOUTBEAT_INCDEC;
+			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
+			return;
 		}
 		if ( MenuVars.next_menu_item == 4)
 		{
-			if ((DrumMachineVar.sequencer_flags & (SEQUENCER_GATEH | SEQUENCER_GATEL ) ) ==  0 )
-			{
-				DrumMachineVar.sequencer_flags |= SEQUENCER_GATEH;
-				ILI9341_WriteString(STATUS_BAR_GATEX,STATUS_BAR_Y,"H",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-			}
-			else
-			{
-				if ((DrumMachineVar.sequencer_flags & SEQUENCER_GATEH ) ==  SEQUENCER_GATEH )
-				{
-					DrumMachineVar.sequencer_flags &= ~SEQUENCER_GATEH;
-					DrumMachineVar.sequencer_flags |= SEQUENCER_GATEL;
-					ILI9341_WriteString(STATUS_BAR_GATEX,STATUS_BAR_Y,"L",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-				}
-				else
-				{
-					DrumMachineVar.sequencer_flags &= ~SEQUENCER_GATEL;
-					ILI9341_WriteString(STATUS_BAR_GATEX,STATUS_BAR_Y,"N",Font_7x10,ILI9341_WHITE,ILI9341_BLACK);
-				}
-			}
+			DrumMachineVar.encoder_navigation |= ENCNAV_GATE_INCDEC;
+			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
 			return;
 		}
 		if ( MenuVars.next_menu_item == MenuSequence[0].items)
@@ -486,14 +387,14 @@ void MeuEncoderChangeMenu(void)
 	case	MENU_DELAY	:
 		if ( MenuVars.next_menu_item == 0)
 		{
-			DrumMachineVar.system |= SYSTEM_DELAYVAL_INCDEC;
+			DrumMachineVar.encoder_navigation |= ENCNAV_DELAYVAL_INCDEC;
 			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
 			Delay_Value_Draw(1);
 			return;
 		}
 		if ( MenuVars.next_menu_item == 1)
 		{
-			DrumMachineVar.system |= SYSTEM_DELAYWEIGHT_INCDEC;
+			DrumMachineVar.encoder_navigation |= ENCNAV_DELAYWEIGHT_INCDEC;
 			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
 			Delay_Weight_Draw(1);
 			return;
@@ -528,7 +429,7 @@ void MeuEncoderChangeMenu(void)
 	case	MENU_GLOBALS	:
 		if ( MenuVars.next_menu_item == 0)
 		{
-			DrumMachineVar.system |= SYSTEM_BPM_INCDEC;
+			DrumMachineVar.encoder_navigation |= ENCNAV_BPM_INCDEC;
 			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
 			BPM_Value_Draw(1);
 			return;
@@ -557,6 +458,12 @@ void MeuEncoderChangeMenu(void)
 		{
 			SequencerInternalStop();
 			CopyDigitsFromSD();
+			return;
+		}
+		if ( MenuVars.next_menu_item == 3)
+		{
+			SequencerInternalStop();
+			CopyIconsFromSD();
 			return;
 		}
 		if ( MenuVars.next_menu_item == MenuSettings[0].items)

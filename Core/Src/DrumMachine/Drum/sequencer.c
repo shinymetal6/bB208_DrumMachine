@@ -13,6 +13,8 @@
 #include "enc_btns_leds.h"
 #include "../Hmi/menus.h"
 #include "../Hmi/graph.h"
+#include "../Images/icons_memory.h"
+
 
 #include <string.h>
 
@@ -214,9 +216,8 @@ uint16_t	i , val;
 			if ( DrumMachineVar.sequencer_step >= UserParameters.sequencer_length )
 			{
 				DrumMachineVar.sequencer_step = 0;
-				if ( (DrumMachineVar.system & SYSTEM_SEQUENCER_SSHOT ) == SYSTEM_SEQUENCER_SSHOT )
+				if ( (DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_LOOP ) == 0 )
 				{
-					//DrumMachineVar.system &= ~SYSTEM_SEQUENCER_SSHOT;
 					SequencerInternalStop();
 					LD8_OnOff(LED_OFF);
 					WriteStatusLine("Ready");
@@ -256,7 +257,7 @@ static void gate_sequencer_callbacks(void)
 
 void sigin2_callbacks( uint16_t pin_value )
 {
-	if (( DrumMachineVar.system & SYSTEM_SEQUENCER_EXTERNAL ) == SYSTEM_SEQUENCER_EXTERNAL )
+	if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_EXTERNAL ) == SECMODE_SEQUENCER_EXTERNAL )
 	{
 		if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGERINH ) ==  SEQUENCER_TRIGGERINH)
 		{
@@ -281,7 +282,7 @@ void ext_additional_timer_callbacks(TIM_HandleTypeDef *htim)
 {
 	if ( htim == &TIM_SEQUENCER )
 	{
-		if ((( DrumMachineVar.system & SYSTEM_SEQUENCER_INTERNAL ) == SYSTEM_SEQUENCER_INTERNAL ) || (( DrumMachineVar.system & SYSTEM_SEQUENCER_SSHOT ) == SYSTEM_SEQUENCER_SSHOT ) )
+		if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_EXTERNAL ) == 0 )
 		{
 			DrumMachineVar.sequencer_preload = TIM_ARR_1_BPM / UserParameters.bpm;
 			TIM_SEQUENCERL->ARR = DrumMachineVar.sequencer_preload;
@@ -295,6 +296,43 @@ void ext_additional_timer_callbacks(TIM_HandleTypeDef *htim)
 			ld1_status --;
 			if ( ld1_status == 0 )
 				LD1_OnOff(LED_OFF);
+		}
+	}
+}
+
+void SequencerDrawMode(uint8_t hilight)
+{
+	if ( hilight == 0)
+	{
+		if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_LOOP) == SECMODE_SEQUENCER_LOOP)
+			ILI9341_DrawBitmap(ICON_SEQMODE_X,ICONS_Y,(uint8_t *)&icons_50x20_normal[LOOP_INDEX]);
+		else
+			ILI9341_DrawBitmap(ICON_SEQMODE_X,ICONS_Y,(uint8_t *)&icons_50x20_normal[SINGLE_INDEX]);
+	}
+	else
+	{
+		if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_LOOP) == SECMODE_SEQUENCER_LOOP)
+			ILI9341_DrawBitmap(ICON_SEQMODE_X,ICONS_Y,(uint8_t *)&icons_50x20_selected[LOOP_INDEX]);
+		else
+			ILI9341_DrawBitmap(ICON_SEQMODE_X,ICONS_Y,(uint8_t *)&icons_50x20_selected[SINGLE_INDEX]);
+	}
+}
+
+void SequencerModeChange(void)
+{
+	if (( DrumMachineVar.encoder_flags & ENCODER_ROTATION_FLAG) == ENCODER_ROTATION_FLAG)
+	{
+		if ((( DrumMachineVar.encoder_flags & ENCODER_INCREMENT_FLAG) == ENCODER_INCREMENT_FLAG) || (( DrumMachineVar.encoder_flags & ENCODER_DECREMENT_FLAG) == ENCODER_DECREMENT_FLAG))
+		{
+			if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_LOOP) == SECMODE_SEQUENCER_LOOP)
+			{
+				DrumMachineVar.sequencer_mode &= ~SECMODE_SEQUENCER_LOOP;
+			}
+			else
+			{
+				DrumMachineVar.sequencer_mode |= SECMODE_SEQUENCER_LOOP;
+			}
+			SequencerDrawMode(1);
 		}
 	}
 }

@@ -12,6 +12,8 @@
 #include "enc_btns_leds.h"
 #include "instrument.h"
 #include "bpm.h"
+#include "trigger.h"
+#include "gate.h"
 #include "../Hmi/graph.h"
 #include "../Hmi/menus.h"
 #include "../Hmi/vol_meter.h"
@@ -36,7 +38,7 @@ void controls_callbacks( void )
 	DrumMachineVar.volume_cntr++;
 	if ( DrumMachineVar.volume_cntr == 3 )
 	{
-		DrumMachineVar.system |= SYSTEM_VOLUME_READY;
+		DrumMachineVar.volume_flags |= VOLUME_FLAG_READY;
 	}
 	if ( DrumMachineVar.volume_cntr == 5 )
 		DrumMachineVar.volume_cntr = 4;
@@ -47,8 +49,8 @@ static void Init_InitialVars(void)
 	DrumMachineVar.sequencer_flags &= ~(SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL );
 	DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGERINH;
 	DrumMachineVar.sequencer_flags |= SEQUENCER_TRIGGEROUTLVL;
-	DrumMachineVar.system &= ~(SYSTEM_SEQUENCER_INTERNAL | SYSTEM_SEQUENCER_EXTERNAL | SYSTEM_SEQUENCER_SSHOT);
-	DrumMachineVar.system |= SYSTEM_SEQUENCER_INTERNAL;
+	DrumMachineVar.sequencer_mode &= ~SECMODE_SEQUENCER_EXTERNAL;
+	DrumMachineVar.sequencer_mode |= SECMODE_SEQUENCER_LOOP;
 }
 
 static void Init_FinalVars(void)
@@ -82,6 +84,8 @@ void application_init(void)
 	//InitSPDIF();
 	//InitI2S();
 	Init_FinalVars();
+	drum_flash_load_icons();
+
 }
 
 void application_loop(void)
@@ -91,7 +95,7 @@ void application_loop(void)
 		HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON,PWR_SLEEPENTRY_WFI);
 		if (( DrumMachineVar.buttons_flags & SW1_PRESSED ) == SW1_PRESSED)
 		{
-			if ((( DrumMachineVar.system & SYSTEM_SEQUENCER_INTERNAL ) == SYSTEM_SEQUENCER_INTERNAL ) || (( DrumMachineVar.system & SYSTEM_SEQUENCER_SSHOT ) == SYSTEM_SEQUENCER_SSHOT ) )
+			if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_EXTERNAL ) == 0 )
 			{
 				if (( DrumMachineVar.sequencer_flags & SEQUENCER_ENABLE ) == SEQUENCER_ENABLE )
 				{
@@ -103,7 +107,7 @@ void application_loop(void)
 
 		if (( DrumMachineVar.buttons_flags & SW2_PRESSED ) == SW2_PRESSED)
 		{
-			if ((( DrumMachineVar.system & SYSTEM_SEQUENCER_INTERNAL ) == SYSTEM_SEQUENCER_INTERNAL ) || (( DrumMachineVar.system & SYSTEM_SEQUENCER_SSHOT ) == SYSTEM_SEQUENCER_SSHOT ) )
+			if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_EXTERNAL ) == 0 )
 			{
 				if (( DrumMachineVar.sequencer_flags & SEQUENCER_ENABLE ) != SEQUENCER_ENABLE )
 				{
@@ -116,7 +120,7 @@ void application_loop(void)
 					LD8_OnOff(LED_OFF);
 				}
 			}
-			if (( DrumMachineVar.system & SYSTEM_SEQUENCER_EXTERNAL ) == SYSTEM_SEQUENCER_EXTERNAL )
+			if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_EXTERNAL ) == SECMODE_SEQUENCER_EXTERNAL )
 			{
 				if (( DrumMachineVar.sequencer_flags & SEQUENCER_ENABLE ) != SEQUENCER_ENABLE )
 				{
@@ -136,7 +140,7 @@ void application_loop(void)
 
 		if (( DrumMachineVar.sequencer_flags & SEQUENCER_DONE ) == SEQUENCER_DONE)
 		{
-			if (( DrumMachineVar.system & SYSTEM_SEQUENCER_EXTERNAL ) == SYSTEM_SEQUENCER_EXTERNAL )
+			if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_EXTERNAL ) == SECMODE_SEQUENCER_EXTERNAL )
 			{
 				BPMEnableCapture();
 				BPM_ExtValue_Draw();
@@ -159,7 +163,7 @@ void application_loop(void)
 					drum_flash_store_usrparams();
 				}
 			}
-			if (( DrumMachineVar.system & SYSTEM_VOLUME_READY ) == SYSTEM_VOLUME_READY)
+			if (( DrumMachineVar.volume_flags & VOLUME_FLAG_READY ) == VOLUME_FLAG_READY)
 			{
 				GetControls((uint16_t *)&DrumMachineVar.rvar);
 				DrumMachineVar.volume = (float)DrumMachineVar.rvar[VOLUME_POT] / 255.0F;
@@ -179,17 +183,37 @@ void application_loop(void)
 				MenuEncoderNavigate();
 			else
 			{
-				if (( DrumMachineVar.system & SYSTEM_BPM_INCDEC) == SYSTEM_BPM_INCDEC)
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_BPM_INCDEC) == ENCNAV_BPM_INCDEC)
 				{
 					BPM_Value_Change();
 				}
-				if (( DrumMachineVar.system & SYSTEM_DELAYVAL_INCDEC) == SYSTEM_DELAYVAL_INCDEC)
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_DELAYVAL_INCDEC) == ENCNAV_DELAYVAL_INCDEC)
 				{
 					Delay_Value_Change();
 				}
-				if (( DrumMachineVar.system & SYSTEM_DELAYWEIGHT_INCDEC) == SYSTEM_DELAYWEIGHT_INCDEC)
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_DELAYWEIGHT_INCDEC) == ENCNAV_DELAYWEIGHT_INCDEC)
 				{
 					Delay_Weight_Change();
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_MODE_INCDEC) == ENCNAV_MODE_INCDEC)
+				{
+					SequencerModeChange();
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGINSRC_INCDEC) == ENCNAV_TRIGINSRC_INCDEC)
+				{
+					TriggerInMode_Change();
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGOUTLVL_INCDEC) == ENCNAV_TRIGOUTLVL_INCDEC)
+				{
+					TriggerOutLevel_Change();
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGOUTBEAT_INCDEC) == ENCNAV_TRIGOUTBEAT_INCDEC)
+				{
+					TriggerOutPosition_Change();
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_GATE_INCDEC) == ENCNAV_GATE_INCDEC)
+				{
+					GateInLevel_Change();
 				}
 			}
 			DrumMachineVar.encoder_flags &= ~ENCODER_ROTATION_FLAG;
@@ -200,20 +224,41 @@ void application_loop(void)
 				MeuEncoderChangeMenu();
 			else
 			{
-				if (( DrumMachineVar.system & SYSTEM_BPM_INCDEC) == SYSTEM_BPM_INCDEC)
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_BPM_INCDEC) == ENCNAV_BPM_INCDEC)
 				{
 					BPM_Value_Draw(0);
-					DrumMachineVar.system &= ~SYSTEM_BPM_INCDEC;
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_BPM_INCDEC;
 				}
-				if (( DrumMachineVar.system & SYSTEM_DELAYVAL_INCDEC) == SYSTEM_DELAYVAL_INCDEC)
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_DELAYVAL_INCDEC) == ENCNAV_DELAYVAL_INCDEC)
 				{
 					Delay_Value_Draw(0);
-					DrumMachineVar.system &= ~SYSTEM_DELAYVAL_INCDEC;
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_DELAYVAL_INCDEC;
 				}
-				if (( DrumMachineVar.system & SYSTEM_DELAYWEIGHT_INCDEC) == SYSTEM_DELAYWEIGHT_INCDEC)
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_DELAYWEIGHT_INCDEC) == ENCNAV_DELAYWEIGHT_INCDEC)
 				{
 					Delay_Weight_Draw(0);
-					DrumMachineVar.system &= ~SYSTEM_DELAYWEIGHT_INCDEC;
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_DELAYWEIGHT_INCDEC;
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_MODE_INCDEC) == ENCNAV_MODE_INCDEC)
+				{
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_MODE_INCDEC;
+					SequencerDrawMode(0);
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGINSRC_INCDEC) == ENCNAV_TRIGINSRC_INCDEC)
+				{
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_TRIGINSRC_INCDEC;
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGOUTBEAT_INCDEC) == ENCNAV_TRIGOUTBEAT_INCDEC)
+				{
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_TRIGOUTBEAT_INCDEC;
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGOUTLVL_INCDEC) == ENCNAV_TRIGOUTLVL_INCDEC)
+				{
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_TRIGOUTLVL_INCDEC;
+				}
+				if (( DrumMachineVar.encoder_navigation & ENCNAV_GATE_INCDEC) == ENCNAV_GATE_INCDEC)
+				{
+					DrumMachineVar.encoder_navigation &= ~ENCNAV_GATE_INCDEC;
 				}
 				DrumMachineVar.uservalue_changed = STORE_USERVALUES_TIMEOUT;
 				DrumMachineVar.system |= SYSTEM_MENU_INCDEC;

@@ -45,7 +45,20 @@
 #define		GREEN_DIGIT_TYPE2_PTR	(RED_DIGIT_TYPE2_PTR+SECTOR_SIZE*DIGIT_NUMSECTORS)
 #define		YELLOW_DIGIT_TYPE2_PTR	(GREEN_DIGIT_TYPE2_PTR+SECTOR_SIZE*DIGIT_NUMSECTORS)
 #define		ORANGE_DIGIT_TYPE2_PTR	(YELLOW_DIGIT_TYPE2_PTR+SECTOR_SIZE*DIGIT_NUMSECTORS)
-#define		LOGO_PTR				(ORANGE_DIGIT_TYPE2_PTR+SECTOR_SIZE*DIGIT_NUMSECTORS)
+#define		ICON_BOTH_PTR			(ORANGE_DIGIT_TYPE2_PTR+SECTOR_SIZE*DIGIT_NUMSECTORS)
+#define		ICON_FALLING_PTR		(ICON_BOTH_PTR+SECTOR_SIZE)
+#define		ICON_INT_PTR			(ICON_FALLING_PTR+SECTOR_SIZE)
+#define		ICON_LOW_PTR			(ICON_INT_PTR+SECTOR_SIZE)
+#define		ICON_RISING_PTR			(ICON_LOW_PTR+SECTOR_SIZE)
+#define		ICON_EXT_PTR			(ICON_RISING_PTR+SECTOR_SIZE)
+#define		ICON_HIGH_PTR			(ICON_EXT_PTR+SECTOR_SIZE)
+#define		ICON_LOOP_PTR			(ICON_HIGH_PTR+SECTOR_SIZE)
+#define		ICON_NONE_PTR			(ICON_LOOP_PTR+SECTOR_SIZE)
+#define		ICON_SINGLE_PTR			(ICON_NONE_PTR+SECTOR_SIZE)
+
+
+
+#define		LOGO_PTR				(ICON_SINGLE_PTR+SECTOR_SIZE)
 #define		SAMPLE_PTR				0
 #define		SAMPLE_END				(0xf00000)
 
@@ -60,5 +73,7 @@ extern	void drum_flash_store_digits( void );
 extern	void drum_flash_load_digits(void);
 extern	void drum_flash_store_usrparams(void);
 extern	void drum_flash_get_usrsparams(void);
+extern	void drum_flash_store_icons( void );
+extern	void drum_flash_load_icons( void );
 
 #endif /* SRC_DRUMMACHINE_DRUM_DRUM_FLASH_H_ */
