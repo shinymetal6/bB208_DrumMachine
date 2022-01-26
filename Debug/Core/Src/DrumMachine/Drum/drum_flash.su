@@ -4,5 +4,5 @@ drum_flash.c:38:6:drum_flash_store_digits	8	static
 drum_flash.c:66:6:drum_flash_load_digits	8	static
 drum_flash.c:74:6:drum_flash_store_icons	16	static
 drum_flash.c:89:6:drum_flash_load_icons	16	static
-drum_flash.c:100:6:drum_flash_get_usrsequence	4	static
+drum_flash.c:100:6:drum_flash_get_usrsequence	0	static
 drum_flash.c:104:6:drum_flash_load	8	static

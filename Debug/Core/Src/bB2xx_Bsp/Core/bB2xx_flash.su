@@ -1,4 +1,4 @@
 bB2xx_flash.c:15:9:bB2xx_flash_identify	8	static
-bB2xx_flash.c:26:9:bB2xx_flash_init	16	static
-bB2xx_flash.c:34:6:bB2xx_flash_store_sysparams	8	static
+bB2xx_flash.c:26:9:bB2xx_flash_init	8	static
+bB2xx_flash.c:34:6:bB2xx_flash_store_sysparams	16	static
 bB2xx_flash.c:42:6:bB2xx_flash_get_sysparams	8	static

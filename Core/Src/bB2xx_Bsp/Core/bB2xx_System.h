@@ -92,7 +92,13 @@ typedef struct {
 	uint8_t			control_flags;
 	int16_t			buffer_length , hbuffer_length;
 	int16_t			rvar[4];
+	uint8_t			usb_flags;
+	uint8_t			*usb_rx_ptr;
+	uint16_t		usb_rx_len;
 }SystemVar_TypeDef;
+
+/* usb_flags */
+#define	USB_RXPKT_READY				0x80
 
 /* timers_flag */
 #define	TIMER_100MS_FLAG			0x01

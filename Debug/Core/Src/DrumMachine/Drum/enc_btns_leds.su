@@ -1,7 +1,7 @@
-enc_btns_leds.c:12:6:encoder_rotation_callback	4	static
-enc_btns_leds.c:27:6:encoder_switch_callback	4	static
-enc_btns_leds.c:32:6:sw1_callback	4	static
-enc_btns_leds.c:37:6:sw2_callback	4	static
-enc_btns_leds.c:42:6:LD1_OnOff	16	static
-enc_btns_leds.c:47:6:LD7_OnOff	16	static
-enc_btns_leds.c:52:6:LD8_OnOff	16	static
+enc_btns_leds.c:12:6:encoder_rotation_callback	0	static
+enc_btns_leds.c:27:6:encoder_switch_callback	0	static
+enc_btns_leds.c:32:6:sw1_callback	0	static
+enc_btns_leds.c:37:6:sw2_callback	0	static
+enc_btns_leds.c:42:6:LD1_OnOff	8	static
+enc_btns_leds.c:47:6:LD7_OnOff	8	static
+enc_btns_leds.c:52:6:LD8_OnOff	8	static

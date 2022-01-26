@@ -1,5 +1,5 @@
 instrument.c:25:10:InitInstruments	24	static
-instrument.c:49:6:compare_buf_0_1	16	static
-instrument.c:63:10:GetBufferLen	4	static
-instrument.c:69:6:mixer_out	24	static
-instrument.c:85:6:ProcessDACOut	24	static
+instrument.c:49:6:compare_buf_0_1	0	static
+instrument.c:63:10:GetBufferLen	0	static
+instrument.c:69:6:mixer_out	8	static
+instrument.c:85:6:ProcessDACOut	16	static

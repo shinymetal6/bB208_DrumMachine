@@ -247,6 +247,7 @@ void application_loop(void)
 				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGINSRC_INCDEC) == ENCNAV_TRIGINSRC_INCDEC)
 				{
 					DrumMachineVar.encoder_navigation &= ~ENCNAV_TRIGINSRC_INCDEC;
+					TriggerDrawInMode(0);
 				}
 				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGOUTBEAT_INCDEC) == ENCNAV_TRIGOUTBEAT_INCDEC)
 				{
@@ -255,10 +256,12 @@ void application_loop(void)
 				if (( DrumMachineVar.encoder_navigation & ENCNAV_TRIGOUTLVL_INCDEC) == ENCNAV_TRIGOUTLVL_INCDEC)
 				{
 					DrumMachineVar.encoder_navigation &= ~ENCNAV_TRIGOUTLVL_INCDEC;
+					TriggerDrawOutLevel(0);
 				}
 				if (( DrumMachineVar.encoder_navigation & ENCNAV_GATE_INCDEC) == ENCNAV_GATE_INCDEC)
 				{
 					DrumMachineVar.encoder_navigation &= ~ENCNAV_GATE_INCDEC;
+					GateDrawInLevel(0);
 				}
 				DrumMachineVar.uservalue_changed = STORE_USERVALUES_TIMEOUT;
 				DrumMachineVar.system |= SYSTEM_MENU_INCDEC;

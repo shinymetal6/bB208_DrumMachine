@@ -10,8 +10,9 @@
 #include "../Hmi/menus.h"
 #include "../Images/icons_memory.h"
 
-void TriggerDrawMode(uint8_t hilight)
+void TriggerDrawInMode(uint8_t hilight)
 {
+	/*
 	if ( hilight == 0)
 	{
 		if ((DrumMachineVar.sequencer_flags & (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) ) ==  (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) )
@@ -51,6 +52,28 @@ void TriggerDrawMode(uint8_t hilight)
 		}
 
 	}
+	*/
+uint16_t color;
+	if ( hilight == 0)
+		color = ILI9341_WHITE;
+	else
+		color = ILI9341_RED;
+	if ((DrumMachineVar.sequencer_flags & (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) ) ==  (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) )
+	{
+		ILI9341_WriteString(ICON_TRIGIN_X,ICONS_Y,"BOTH   ",Font_7x10,color,ILI9341_BLACK);
+	}
+	else if ((DrumMachineVar.sequencer_flags & (SEQUENCER_TRIGGERINH | SEQUENCER_TRIGGERINL ) ) ==  0 )
+	{
+		ILI9341_WriteString(ICON_TRIGIN_X,ICONS_Y,"NONE   ",Font_7x10,color,ILI9341_BLACK);
+	}
+	else if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGERINH ) ==  SEQUENCER_TRIGGERINH )
+	{
+		ILI9341_WriteString(ICON_TRIGIN_X,ICONS_Y,"RISING ",Font_7x10,color,ILI9341_BLACK);
+	}
+	else
+	{
+		ILI9341_WriteString(ICON_TRIGIN_X,ICONS_Y,"FALLING",Font_7x10,color,ILI9341_BLACK);
+	}
 }
 
 void TriggerInMode_Change(void)
@@ -78,26 +101,20 @@ void TriggerInMode_Change(void)
 		DrumMachineVar.sequencer_flags &= ~SEQUENCER_TRIGGERINH;
 		DrumMachineVar.sequencer_mode &= ~SECMODE_SEQUENCER_EXTERNAL;
 	}
-	TriggerDrawMode(1);
+	TriggerDrawInMode(1);
 }
 
 void TriggerDrawOutLevel(uint8_t hilight)
 {
+uint16_t color;
 	if ( hilight == 0)
-	{
-		if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGEROUTLVL ) ==  SEQUENCER_TRIGGEROUTLVL )
-			ILI9341_DrawBitmap(ICON_TRIGOUT_X,ICONS_Y,(uint8_t *)&icons_50x20_normal[HIGH_INDEX]);
-		else
-			ILI9341_DrawBitmap(ICON_TRIGOUT_X,ICONS_Y,(uint8_t *)&icons_50x20_normal[LOW_INDEX]);
-	}
+		color = ILI9341_WHITE;
 	else
-	{
-		if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGEROUTLVL ) ==  SEQUENCER_TRIGGEROUTLVL )
-			ILI9341_DrawBitmap(ICON_TRIGOUT_X,ICONS_Y,(uint8_t *)&icons_50x20_selected[HIGH_INDEX]);
-		else
-			ILI9341_DrawBitmap(ICON_TRIGOUT_X,ICONS_Y,(uint8_t *)&icons_50x20_selected[LOW_INDEX]);
-
-	}
+		color = ILI9341_RED;
+	if ((DrumMachineVar.sequencer_flags & SEQUENCER_TRIGGEROUTLVL ) ==  SEQUENCER_TRIGGEROUTLVL )
+		ILI9341_WriteString(ICON_TRIGOUT_X,ICONS_Y,"HIGH",Font_7x10,color,ILI9341_BLACK);
+	else
+		ILI9341_WriteString(ICON_TRIGOUT_X,ICONS_Y,"LOW ",Font_7x10,color,ILI9341_BLACK);
 }
 
 void TriggerOutLevel_Change(void)

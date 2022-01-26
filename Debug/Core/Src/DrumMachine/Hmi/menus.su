@@ -1,10 +1,10 @@
-menus.c:178:6:ClearStatusLine	56	static
-menus.c:188:6:WriteStatusLine	64	static
-menus.c:200:13:DisplayStringAt	40	static
-menus.c:208:13:EraseStringAt	32	static
+menus.c:200:13:DisplayStringAt	24	static
+menus.c:208:13:EraseStringAt	24	static
+menus.c:178:6:ClearStatusLine	48	static
+menus.c:188:6:WriteStatusLine	48	static
 menus.c:213:6:MenuHilightItem	16	static
-menus.c:222:6:MenuDisplayMenu	32	static
+menus.c:222:6:MenuDisplayMenu	16	static
 menus.c:234:6:MenuDisplayInit	32	static
 menus.c:293:6:MenuEncoderNavigate	8	static
-menus.c:317:6:update_sequencer_mode	4	static
+menus.c:317:6:update_sequencer_mode	0	static
 menus.c:322:6:MeuEncoderChangeMenu	24	static

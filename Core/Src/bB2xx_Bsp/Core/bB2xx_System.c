@@ -9,8 +9,8 @@
 #include "bB2xx_System.h"
 #include <strings.h>
 
-DTCM_RAM_AREA	__attribute__ ((aligned (16)))	SystemVar_TypeDef			SystemVar;
-DTCM_RAM_AREA	__attribute__ ((aligned (16)))	SystemParameters_TypeDef	SystemParameters;
+RAMD3_RAM_AREA	__attribute__ ((aligned (16)))	SystemVar_TypeDef			SystemVar;
+RAMD3_RAM_AREA	__attribute__ ((aligned (16)))	SystemParameters_TypeDef	SystemParameters;
 
 void SysLedActivities(uint8_t val)
 {
@@ -139,6 +139,11 @@ __weak void application_loop(void)
 
 }
 
+__weak void application_usb_callback(uint8_t* Buf, uint16_t	len )
+{
+
+}
+
 void bB2xx_Init(void)
 {
 	/*
@@ -161,6 +166,11 @@ void bB2xx_Set_NO_MicroSD_Flag(void)
 
 void bB2xx_Loop(void)
 {
+	if (( SystemVar.usb_flags & USB_RXPKT_READY) == USB_RXPKT_READY)
+	{
+		SystemVar.usb_flags &= ~USB_RXPKT_READY;
+		application_usb_callback(SystemVar.usb_rx_ptr,SystemVar.usb_rx_len);
+	}
 	application_loop();
 }
 

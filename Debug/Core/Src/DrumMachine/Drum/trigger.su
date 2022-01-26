@@ -1,5 +1,5 @@
-trigger.c:13:6:TriggerDrawMode	16	static
-trigger.c:56:6:TriggerInMode_Change	8	static
-trigger.c:84:6:TriggerDrawOutLevel	16	static
-trigger.c:103:6:TriggerOutLevel_Change	8	static
-trigger.c:116:6:TriggerOutPosition_Change	8	static
+trigger.c:13:6:TriggerDrawInMode	24	static
+trigger.c:79:6:TriggerInMode_Change	8	static
+trigger.c:107:6:TriggerDrawOutLevel	24	static
+trigger.c:120:6:TriggerOutLevel_Change	8	static
+trigger.c:133:6:TriggerOutPosition_Change	8	static

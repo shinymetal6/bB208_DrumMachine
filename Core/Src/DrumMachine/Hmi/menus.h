@@ -50,8 +50,8 @@
 #define	ICONS_Y					(APP_DIGIT_YPOS-25)
 #define	ICON_SEQMODE_X			0
 #define	ICON_TRIGIN_X			52
-#define	ICON_TRIGOUT_X			104
-#define	ICON_GATEIN_X			156
+#define	ICON_TRIGOUT_X			124
+#define	ICON_GATEIN_X			176
 
 #define	APP_TEXT_OFFSET			9
 

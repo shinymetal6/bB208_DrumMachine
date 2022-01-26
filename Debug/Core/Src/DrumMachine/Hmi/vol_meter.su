@@ -1,2 +1,2 @@
 vol_meter.c:17:6:DrawVolMeterValue	40	static
-vol_meter.c:35:6:DrawInitialVolMeter	24	static
+vol_meter.c:35:6:DrawInitialVolMeter	16	static

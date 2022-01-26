@@ -302,6 +302,7 @@ void ext_additional_timer_callbacks(TIM_HandleTypeDef *htim)
 
 void SequencerDrawMode(uint8_t hilight)
 {
+	/*
 	if ( hilight == 0)
 	{
 		if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_LOOP) == SECMODE_SEQUENCER_LOOP)
@@ -316,6 +317,16 @@ void SequencerDrawMode(uint8_t hilight)
 		else
 			ILI9341_DrawBitmap(ICON_SEQMODE_X,ICONS_Y,(uint8_t *)&icons_50x20_selected[SINGLE_INDEX]);
 	}
+	*/
+uint16_t color;
+	if ( hilight == 0)
+		color = ILI9341_WHITE;
+	else
+		color = ILI9341_RED;
+	if (( DrumMachineVar.sequencer_mode & SECMODE_SEQUENCER_LOOP) == SECMODE_SEQUENCER_LOOP)
+		ILI9341_WriteString(ICON_SEQMODE_X,ICONS_Y,"LOOP  ",Font_7x10,color,ILI9341_BLACK);
+	else
+		ILI9341_WriteString(ICON_SEQMODE_X,ICONS_Y,"SINGLE",Font_7x10,color,ILI9341_BLACK);
 }
 
 void SequencerModeChange(void)

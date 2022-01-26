@@ -12,6 +12,7 @@
 
 void GateDrawInLevel(uint8_t hilight)
 {
+	/*
 	if ( hilight == 0)
 	{
 		if ((DrumMachineVar.sequencer_flags & (SEQUENCER_GATEH | SEQUENCER_GATEL ) ) ==  0 )
@@ -30,7 +31,19 @@ void GateDrawInLevel(uint8_t hilight)
 		else if ((DrumMachineVar.sequencer_flags & (SEQUENCER_GATEH | SEQUENCER_GATEL ) ) ==  SEQUENCER_GATEH )
 			ILI9341_DrawBitmap(ICON_GATEIN_X,ICONS_Y,(uint8_t *)&icons_50x20_selected[HIGH_INDEX]);
 	}
+	*/
+uint16_t color;
+	if ( hilight == 0)
+		color = ILI9341_WHITE;
+	else
+		color = ILI9341_RED;
 
+	if ((DrumMachineVar.sequencer_flags & (SEQUENCER_GATEH | SEQUENCER_GATEL ) ) ==  0 )
+		ILI9341_WriteString(ICON_GATEIN_X,ICONS_Y,"NONE",Font_7x10,color,ILI9341_BLACK);
+	else if ((DrumMachineVar.sequencer_flags & (SEQUENCER_GATEH | SEQUENCER_GATEL ) ) ==  SEQUENCER_GATEL )
+		ILI9341_WriteString(ICON_GATEIN_X,ICONS_Y,"LOW ",Font_7x10,color,ILI9341_BLACK);
+	else if ((DrumMachineVar.sequencer_flags & (SEQUENCER_GATEH | SEQUENCER_GATEL ) ) ==  SEQUENCER_GATEH )
+		ILI9341_WriteString(ICON_GATEIN_X,ICONS_Y,"HIGH",Font_7x10,color,ILI9341_BLACK);
 }
 
 void GateInLevel_Change(void)

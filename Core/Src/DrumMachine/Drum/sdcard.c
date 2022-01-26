@@ -70,8 +70,7 @@ FRESULT Check_File (char *filename)
 	return f_stat (filename, &fno);
 }
 
-//RAMD1_RAM_AREA	uint8_t		spi_buf[SECTOR_SIZE],verify_spi_buf[SECTOR_SIZE];
-RAMD1_RAM_AREA	uint16_t	spi_buf[SECTOR_SIZE/2],verify_spi_buf[SECTOR_SIZE/2];
+RAMD3_RAM_AREA	uint16_t	spi_buf[SECTOR_SIZE/2],testspi_buf[SECTOR_SIZE/2];
 
 uint8_t	check_if_wav_present(uint8_t instrument_number)
 {

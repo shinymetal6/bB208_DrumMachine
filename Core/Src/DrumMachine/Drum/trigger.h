@@ -11,7 +11,7 @@
 extern	void TriggerInMode_Change(void);
 extern	void TriggerOutLevel_Change(void);
 extern	void TriggerOutPosition_Change(void);
-extern	void TriggerDrawMode(uint8_t hilight);
+extern	void TriggerDrawInMode(uint8_t hilight);
 extern	void TriggerDrawOutLevel(uint8_t hilight);
 
 

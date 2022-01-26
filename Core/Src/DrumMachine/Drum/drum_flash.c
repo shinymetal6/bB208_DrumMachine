@@ -14,7 +14,7 @@
 #include <string.h>
 #include <stdio.h>
 
-DTCM_RAM_AREA	__attribute__ ((aligned (16)))	UserParameters_TypeDef		UserParameters;
+RAMD3_RAM_AREA	__attribute__ ((aligned (16)))	UserParameters_TypeDef		UserParameters;
 
 void drum_flash_get_usrparams(void)
 {

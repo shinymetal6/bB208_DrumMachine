@@ -285,7 +285,7 @@ uint8_t	i=0;
 	BPM_Value_Draw(0);
 
 	SequencerDrawMode(0);
-	TriggerDrawMode(0);
+	TriggerDrawInMode(0);
 	TriggerDrawOutLevel(0);
 	GateDrawInLevel(0);
 }
@@ -357,12 +357,14 @@ void MeuEncoderChangeMenu(void)
 		{
 			DrumMachineVar.encoder_navigation |= ENCNAV_TRIGINSRC_INCDEC;
 			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
+			TriggerDrawInMode(1);
 			return;
 		}
 		if ( MenuVars.next_menu_item == 2)
 		{
 			DrumMachineVar.encoder_navigation |= ENCNAV_TRIGOUTLVL_INCDEC;
 			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
+			TriggerDrawOutLevel(1);
 			return;
 		}
 		if ( MenuVars.next_menu_item == 3)
@@ -375,6 +377,7 @@ void MeuEncoderChangeMenu(void)
 		{
 			DrumMachineVar.encoder_navigation |= ENCNAV_GATE_INCDEC;
 			DrumMachineVar.system &= ~SYSTEM_MENU_INCDEC;
+			GateDrawInLevel(1);
 			return;
 		}
 		if ( MenuVars.next_menu_item == MenuSequence[0].items)

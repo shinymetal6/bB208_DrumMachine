@@ -1,4 +1,4 @@
-dac.c:13:17:GetBufferLen	4	static
-dac.c:18:13:ProcessDACOut	4	static
-dac.c:23:13:InitDac	16	static
-dac.c:32:6:DAC_IrqProcessSamples	24	static
+dac.c:13:17:GetBufferLen	0	static
+dac.c:18:13:ProcessDACOut	0	static
+dac.c:23:13:InitDac	24	static
+dac.c:32:6:DAC_IrqProcessSamples	16	static

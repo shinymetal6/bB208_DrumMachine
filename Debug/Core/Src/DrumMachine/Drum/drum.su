@@ -1,7 +1,6 @@
-drum.c:23:13:InitApplicationTimers	4	static
-drum.c:27:6:InitDac	16	static
-drum.c:36:6:controls_callbacks	4	static
-drum.c:47:13:Init_InitialVars	4	static
+drum.c:47:13:Init_InitialVars	0	static
 drum.c:56:13:Init_FinalVars	8	static
+drum.c:27:6:InitDac	16	static
+drum.c:36:6:controls_callbacks	0	static
 drum.c:67:6:application_init	8	static
 drum.c:91:6:application_loop	16	static

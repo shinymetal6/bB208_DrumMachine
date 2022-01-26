@@ -1,9 +1,9 @@
-graph.c:21:6:GraphSetSequenceInactive	40	static
-graph.c:28:6:GraphSetSequenceActive	40	static
-graph.c:35:6:GraphSetSequencePlay	40	static
-graph.c:42:6:GraphUpdateGraph	16	static
+graph.c:21:6:GraphSetSequenceInactive	24	static
+graph.c:28:6:GraphSetSequenceActive	24	static
+graph.c:35:6:GraphSetSequencePlay	24	static
+graph.c:42:6:GraphUpdateGraph	24	static
 graph.c:72:6:GraphInitialInitGraph	16	static
-graph.c:89:6:GraphSetMarkerInactive	40	static
-graph.c:96:6:GraphSetMarkerActive	40	static
-graph.c:103:6:GraphInitialInitSequenceMarker	16	static
+graph.c:89:6:GraphSetMarkerInactive	24	static
+graph.c:96:6:GraphSetMarkerActive	24	static
+graph.c:103:6:GraphInitialInitSequenceMarker	8	static
 graph.c:117:6:GraphInit	24	static

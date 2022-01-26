@@ -1,8 +1,8 @@
-bpm.c:13:13:DrawValue	24	static
-bpm.c:29:6:BPM_Value_Draw	32	static
-bpm.c:39:6:BPM_ExtValue_Draw	24	static
+bpm.c:13:13:DrawValue	16	static
+bpm.c:29:6:BPM_Value_Draw	16	static
+bpm.c:39:6:BPM_ExtValue_Draw	16	static
 bpm.c:49:6:BPM_Value_Change	8	static
-bpm.c:69:6:GetMeasuredBPM	16	static
-bpm.c:77:6:BPMEnableCapture	4	static
-bpm.c:82:6:BPMDisableCapture	4	static
+bpm.c:69:6:GetMeasuredBPM	0	static
+bpm.c:77:6:BPMEnableCapture	0	static
+bpm.c:82:6:BPMDisableCapture	0	static
 bpm.c:87:6:BPMInit	8	static
