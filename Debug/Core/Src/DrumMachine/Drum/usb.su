@@ -1,0 +1,3 @@
+usb.c:16:6:usb_init	8	static
+usb.c:24:6:UsbMidiParser	0	static
+usb.c:89:6:application_usb_callback	8	static

@@ -16,6 +16,8 @@
   *
   ******************************************************************************
   */
+#ifdef	USB_CDC
+
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -261,16 +263,9 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-#include "bB2xx_BspInclude.h"
-	if ( SystemVar.usb_rx_ptr != NULL)
-	{
-		memcpy(SystemVar.usb_rx_ptr,Buf,*Len);
-		SystemVar.usb_rx_len = *Len;
-		SystemVar.usb_flags |= USB_RXPKT_READY;
-	}
-	USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-	USBD_CDC_ReceivePacket(&hUsbDeviceFS);
-	return (USBD_OK);
+  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+  USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+  return (USBD_OK);
   /* USER CODE END 6 */
 }
 
@@ -333,3 +328,4 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
 /**
   * @}
   */
+#endif

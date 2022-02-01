@@ -139,7 +139,7 @@ __weak void application_loop(void)
 
 }
 
-__weak void application_usb_callback(uint8_t* Buf, uint16_t	len )
+__weak void application_usb_callback(void)
 {
 
 }
@@ -151,12 +151,21 @@ void bB2xx_Init(void)
 	DWT->CYCCNT = 0;
 	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 	*/
+	SystemVar.usb_packet_len = SystemVar.usb_packet = NULL;
+
+	__HAL_RCC_USB2_OTG_FS_ULPI_CLK_SLEEP_DISABLE();
 	InitSystemVars();
 	InitSystemTimers();
 	bB2xx_flash_init();
 	bB2xx_flash_get_sysparams();
 	InitADC();
 	application_init();
+}
+
+void bB2xx_Set_USB_Ptrs(uint8_t	*usb_midi_packet,uint8_t *usb_midi_packet_len)
+{
+	SystemVar.usb_packet = usb_midi_packet;
+	SystemVar.usb_packet_len = usb_midi_packet_len;
 }
 
 void bB2xx_Set_NO_MicroSD_Flag(void)
@@ -166,10 +175,10 @@ void bB2xx_Set_NO_MicroSD_Flag(void)
 
 void bB2xx_Loop(void)
 {
-	if (( SystemVar.usb_flags & USB_RXPKT_READY) == USB_RXPKT_READY)
+	if (( SystemVar.usb_flags & USB_MIDIPKT_READY) == USB_MIDIPKT_READY)
 	{
-		SystemVar.usb_flags &= ~USB_RXPKT_READY;
-		application_usb_callback(SystemVar.usb_rx_ptr,SystemVar.usb_rx_len);
+		application_usb_callback();
+		SystemVar.usb_flags &= ~USB_MIDIPKT_READY;
 	}
 	application_loop();
 }

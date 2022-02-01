@@ -11,5 +11,6 @@ bB2xx_System.c:132:13:application_init	0	static
 bB2xx_System.c:137:13:application_loop	0	static
 bB2xx_System.c:142:13:application_usb_callback	0	static
 bB2xx_System.c:147:6:bB2xx_Init	8	static
-bB2xx_System.c:162:6:bB2xx_Set_NO_MicroSD_Flag	0	static
-bB2xx_System.c:167:6:bB2xx_Loop	8	static
+bB2xx_System.c:165:6:bB2xx_Set_USB_Ptrs	0	static
+bB2xx_System.c:171:6:bB2xx_Set_NO_MicroSD_Flag	0	static
+bB2xx_System.c:176:6:bB2xx_Loop	8	static

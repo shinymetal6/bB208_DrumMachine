@@ -93,12 +93,12 @@ typedef struct {
 	int16_t			buffer_length , hbuffer_length;
 	int16_t			rvar[4];
 	uint8_t			usb_flags;
-	uint8_t			*usb_rx_ptr;
-	uint16_t		usb_rx_len;
+	uint8_t			*usb_packet;
+	uint8_t			*usb_packet_len;
 }SystemVar_TypeDef;
 
 /* usb_flags */
-#define	USB_RXPKT_READY				0x80
+#define	USB_MIDIPKT_READY			0x80
 
 /* timers_flag */
 #define	TIMER_100MS_FLAG			0x01
@@ -153,5 +153,6 @@ extern	uint32_t SysTimer100msecCheckExpired(void);
 extern	void SysTimer100msecClearFlag(void);
 extern	void SysDebounceTimer(void);
 extern	void InitBackLight(void);
+extern	void bB2xx_Set_USB_Ptrs(uint8_t	*usb_midi_packet,uint8_t *usb_midi_packet_len);
 
 #endif /* SRC_BB2XX_BSP_CORE_BB2XX_SYSTEM_H_ */

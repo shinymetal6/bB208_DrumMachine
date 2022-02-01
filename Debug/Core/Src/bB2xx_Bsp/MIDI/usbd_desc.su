@@ -1,0 +1,9 @@
+usbd_desc.c:382:11:USBD_MIDI_DeviceDescriptor	0	static
+usbd_desc.c:388:11:USBD_MIDI_LangIDStrDescriptor	0	static
+usbd_desc.c:478:13:IntToUnicode	8	static
+usbd_desc.c:454:13:Get_SerialNum	16	static
+usbd_desc.c:412:11:USBD_MIDI_SerialStrDescriptor	8	static
+usbd_desc.c:394:11:USBD_MIDI_ProductStrDescriptor	8	static
+usbd_desc.c:406:11:USBD_MIDI_ManufacturerStrDescriptor	8	static
+usbd_desc.c:421:11:USBD_MIDI_ConfigStrDescriptor	8	static
+usbd_desc.c:433:11:USBD_MIDI_InterfaceStrDescriptor	8	static

@@ -20,3 +20,4 @@ stm32h7xx_it.c:341:6:TIM7_IRQHandler	8	static
 stm32h7xx_it.c:355:6:OTG_FS_IRQHandler	8	static
 stm32h7xx_it.c:369:6:TIM15_IRQHandler	8	static
 stm32h7xx_it.c:383:6:TIM17_IRQHandler	8	static
+stm32h7xx_it.c:397:6:HSEM1_IRQHandler	8	static

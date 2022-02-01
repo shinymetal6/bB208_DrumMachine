@@ -1,0 +1,6 @@
+usbd_midi_if.c:157:15:MIDI_DeInit_FS	0	static
+usbd_midi_if.c:171:15:MIDI_Control_FS	0	static
+usbd_midi_if.c:245:15:MIDI_TransmitCplt_FS	0	static
+usbd_midi_if.c:193:15:MIDI_Receive_FS	16	static
+usbd_midi_if.c:143:15:MIDI_Init_FS	8	static
+usbd_midi_if.c:219:9:MIDI_Transmit_FS	8	static

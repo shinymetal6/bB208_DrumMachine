@@ -54,7 +54,17 @@ typedef struct {
 	uint8_t			last_detune_pot;
 	uint32_t		measured_bpm;
 	int16_t			rvar[4];
+	uint8_t			midi_flag;
+	uint8_t			midi_rx_buf[64],midi_rx_len;
+	uint8_t			midi_tx_buf[64],midi_tx_len;
+	uint8_t			midi_packet[64],midipacket_len;
+	uint8_t			sysex_buffer[64],sysex_len;
+	uint16_t		sysex_wbuf_counter;
+	uint16_t		sysex_wsector_stored;
 }DrumMachineVar_TypeDef;
+
+/* midi_flag */
+#define	MIDI_RX_PACKET_READY		0x80
 
 /* sequencer_mode */
 #define	SECMODE_SEQUENCER_EXTERNAL	0x80

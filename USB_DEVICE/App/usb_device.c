@@ -23,8 +23,13 @@
 #include "usb_device.h"
 #include "usbd_core.h"
 #include "usbd_desc.h"
+#ifdef	USB_CDC
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
+#else
+#include "usbd_midi.h"
+#include "usbd_midi_if.h"
+#endif
 
 /* USER CODE BEGIN Includes */
 
@@ -64,6 +69,7 @@ USBD_HandleTypeDef hUsbDeviceFS;
 void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
+#ifdef	USB_CDC
 
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
@@ -89,6 +95,28 @@ void MX_USB_DEVICE_Init(void)
   HAL_PWREx_EnableUSBVoltageDetector();
 
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
+#else
+  /* Init Device Library, add supported class and start the library. */
+  if (USBD_Init(&hUsbDeviceFS, &FS_Desc, DEVICE_FS) != USBD_OK)
+  {
+    Error_Handler();
+  }
+  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_MIDI) != USBD_OK)
+  {
+    Error_Handler();
+  }
+  if (USBD_MIDI_RegisterInterface(&hUsbDeviceFS, &USBD_Interface_fops_FS) != USBD_OK)
+  {
+    Error_Handler();
+  }
+  if (USBD_Start(&hUsbDeviceFS) != USBD_OK)
+  {
+    Error_Handler();
+  }
+
+  /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
+  HAL_PWREx_EnableUSBVoltageDetector();
+#endif
 }
 
 /**

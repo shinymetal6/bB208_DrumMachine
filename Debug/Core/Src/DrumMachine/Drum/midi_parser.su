@@ -1,0 +1,9 @@
+midi_parser.c:25:6:decode_seq_file	152	static
+midi_parser.c:96:10:SYSEX_ConvertMidiBufOut	12	static
+midi_parser.c:206:9:UsbMidiParseNoteOFF	0	static
+midi_parser.c:211:9:UsbMidiParseNoteON	0	static
+midi_parser.c:216:6:write_flash	0	static
+midi_parser.c:221:9:UsbMidiParseSysEx	24	static
+midi_parser.c:290:9:UsbMidiParseControlChange	0	static
+midi_parser.c:295:9:UsbMidiParseUnused	0	static
+midi_parser.c:300:6:UsbMidiParser	16	static

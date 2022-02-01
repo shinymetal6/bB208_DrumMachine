@@ -1,0 +1,6 @@
+midi_on_usb.c:16:6:usb_init	8	static
+midi_on_usb.c:24:9:UsbMidiParseNoteOFF	0	static
+midi_on_usb.c:29:9:UsbMidiParseNoteON	0	static
+midi_on_usb.c:34:9:UsbMidiParseSysEx	0	static
+midi_on_usb.c:84:6:UsbMidiParser	16	static
+midi_on_usb.c:147:6:application_usb_callback	16	static
